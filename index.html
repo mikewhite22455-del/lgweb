@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LG Digital — Android App &amp; Memberships</title>
+  <style>
+    :root {
+      --bg-dark: #061015;
+      --bg-card: #0c1d25;
+      --bg-card-elevated: #112732;
+      --gold: #e6b422;
+      --gold-bright: #ffd65a;
+      --turquoise: #14b8a6;
+      --turquoise-bright: #5eead4;
+      --turquoise-soft: rgba(20, 184, 166, 0.14);
+      --text-main: #f3f8fa;
+      --text-muted: #9eb3bd;
+      --border-gold: rgba(240, 185, 56, 0.28);
+      --border-turquoise: rgba(20, 184, 166, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background:
+        radial-gradient(circle at 85% 10%, rgba(20, 184, 166, 0.16), transparent 42%),
+        radial-gradient(circle at 15% 12%, rgba(240, 185, 56, 0.13), transparent 40%),
+        var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 25;
+      backdrop-filter: blur(12px);
+      background: rgba(6, 16, 21, 0.88);
+      border-bottom: 1px solid var(--border-gold);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 1.05rem;
+      color: var(--gold-bright);
+    }
+
+    .coin-ring {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--gold-bright), var(--turquoise));
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .coin-core {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #183543, var(--bg-dark));
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: var(--gold-bright);
+    }
+
+    .coin-core img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-bright);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.94rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: var(--bg-dark);
+    }
+
+    .btn-turquoise {
+      background: var(--turquoise-soft);
+      color: var(--turquoise-bright);
+      border-color: var(--border-turquoise);
+    }
+
+    .hero {
+      padding: 68px 0 48px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--turquoise-soft);
+      border: 1px solid var(--border-turquoise);
+      color: var(--turquoise-bright);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--turquoise-bright);
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+      line-height: 1.14;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      color: var(--gold-bright);
+    }
+
+    .hero-copy {
+      color: var(--text-muted);
+      font-size: 1.04rem;
+      max-width: 580px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, var(--bg-card-elevated), var(--bg-card));
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .hero-coin-ring {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold-bright), var(--turquoise));
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-coin-core {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #193846, var(--bg-dark));
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+    }
+
+    .hero-coin-core img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-card h2 {
+      font-size: 1.25rem;
+      color: var(--gold-bright);
+      margin-bottom: 8px;
+    }
+
+    .hero-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    section {
+      padding: 52px 0;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .card.featured {
+      border-color: var(--gold-bright);
+      background: linear-gradient(180deg, rgba(240, 185, 56, 0.1), var(--bg-card) 48%);
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      color: var(--gold-bright);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 10px 0 14px;
+    }
+
+    .price span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .features {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 0.93rem;
+    }
+
+    .features li {
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .features li::before {
+      content: "✓ ";
+      color: var(--turquoise-bright);
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 24px;
+      border-top: 1px solid var(--border-gold);
+      padding: 28px 0 40px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="coin-ring">
+          <span class="coin-core">
+            <!-- Optional: put lg-coin.png beside index.html and uncomment below -->
+            <!-- <img src="./lg-coin.png" alt="LG Digital Coin" /> -->
+            <span>LG</span>
+          </span>
+        </span>
+        <span>LG DIGITAL</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#features">Features</a>
+        <a href="#memberships">Memberships</a>
+        <a href="#download">Android App</a>
+      </nav>
+
+      <a href="#download" class="btn btn-gold">Get Android App</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div>
+        <div class="pill">
+          <span class="dot"></span>
+          <span>Android App &amp; Member Portal</span>
+        </div>
+        <h1><span>LG Digital</span> on Android</h1>
+        <p class="hero-copy">
+          Direct Android app access, market analytics tools, and member plans in a clean,
+          standalone site.
+        </p>
+        <div class="hero-actions">
+          <!-- Replace href below with your direct .apk release URL or Google Play URL -->
+          <a
+            id="download"
+            href="https://github.com/mikewhite22455-del/LG_DIGITAL_PUBLIC/releases/latest"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-gold"
+          >
+            Download Android APK
+          </a>
+          <a href="#memberships" class="btn btn-turquoise">View Memberships</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="LG Digital Mobile Overview">
+        <div class="hero-coin-ring">
+          <div class="hero-coin-core">
+            <!-- Optional: put lg-coin.png beside index.html and uncomment below -->
+            <!-- <img src="./lg-coin.png" alt="LG Digital Coin Emblem" /> -->
+            <span>LG</span>
+          </div>
+        </div>
+        <h2>LG Digital Mobile</h2>
+        <p>
+          Built for Android distribution and member access with clear links to your latest builds.
+        </p>
+      </aside>
+    </section>
+
+    <section id="features" class="container">
+      <h2 class="section-title">App &amp; Platform Highlights</h2>
+      <p class="section-sub">
+        Everything organized cleanly for your Android device and member workflow.
+      </p>
+      <div class="grid-3">
+        <article class="card">
+          <div>
+            <h3>Android App Distribution</h3>
+            <p>
+              Install signed Android builds directly from your release link or prepare builds for distribution.
+            </p>
+          </div>
+        </article>
+        <article class="card">
+          <div>
+            <h3>Market &amp; Strategy Tools</h3>
+            <p>
+              Keep key tracking, insights, and account tools easy to reach from mobile.
+            </p>
+          </div>
+        </article>
+        <article class="card">
+          <div>
+            <h3>Member Access</h3>
+            <p>
+              Connect your membership tiers and checkout links whenever you are ready.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="memberships" class="container">
+      <h2 class="section-title">Memberships</h2>
+      <p class="section-sub">
+        Replace the <code>#checkout-*</code> links below with your live checkout URLs when ready.
+      </p>
+      <div class="grid-3">
+        <article class="card">
+          <div>
+            <h3>Starter</h3>
+            <div class="price">$19 <span>/ month</span></div>
+            <ul class="features">
+              <li>Android app access</li>
+              <li>Core market overview</li>
+              <li>Standard updates</li>
+            </ul>
+          </div>
+          <a href="#checkout-starter" class="btn btn-turquoise">Select Starter</a>
+        </article>
+
+        <article class="card featured">
+          <div>
+            <h3>Pro Member</h3>
+            <div class="price">$49 <span>/ month</span></div>
+            <ul class="features">
+              <li>Full Android app &amp; analytics suite</li>
+              <li>Priority release access</li>
+              <li>Member workspace access</li>
+            </ul>
+          </div>
+          <a href="#checkout-pro" class="btn btn-gold">Select Pro</a>
+        </article>
+
+        <article class="card">
+          <div>
+            <h3>All-Access</h3>
+            <div class="price">$99 <span>/ month</span></div>
+            <ul class="features">
+              <li>Everything in Pro Member</li>
+              <li>Early build previews</li>
+              <li>Direct support access</li>
+            </ul>
+          </div>
+          <a href="#checkout-all-access" class="btn btn-turquoise">Select All-Access</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div>© 2026 LG Digital. All rights reserved.</div>
+    <div>
+      <a href="https://lg-digital.ca" style="color: var(--gold-bright);">lg-digital.ca</a>
+    </div>
+  </footer>
+</body>
+</html>
